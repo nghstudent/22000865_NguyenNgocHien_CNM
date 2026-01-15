@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sản phẩm - CRUD & Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">SHOP MANAGER</span>
+            <div class="d-flex align-items-center">
+                <span class="text-white me-3">
+                    <i class="bi bi-person-circle"></i> Xin chào, <strong><%= user %></strong>
+                </span>
+                <a href="/logout" class="btn btn-outline-danger btn-sm">
+                    <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container pb-5">
+        <h2 class="text-center mb-4 text-uppercase fw-bold text-primary">Hệ thống quản lý sản phẩm</h2>
+
+        <div class="card shadow-sm mb-4 border-0">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0"><i class="bi bi-plus-circle"></i> Thêm sản phẩm mới</h5>
+            </div>
+            <div class="card-body">
+                <form action="/add" method="POST" class="row g-3">
+                    <div class="col-md-5">
+                        <label class="form-label fw-bold">Tên sản phẩm</label>
+                        <input type="text" name="name" class="form-control" placeholder="Nhập tên..." required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Giá ($)</label>
+                        <input type="number" name="price" class="form-control" placeholder="0.00" step="0.01" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold">Số lượng</label>
+                        <input type="number" name="quantity" class="form-control" placeholder="0" required>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-success w-100 fw-bold text-uppercase">Thêm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-5 offset-md-7">
+                <form action="/" method="GET" class="input-group shadow-sm">
+                    <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo tên..." value="<%= search %>">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-search"></i> Tìm kiếm
+                    </button>
+                    <% if (search) { %>
+                        <a href="/" class="btn btn-outline-secondary">Hủy lọc</a>
+                        <% } %>
+                </form>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle bg-white shadow-sm rounded">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th style="width: 5%;">ID</th>
+                        <th style="width: 40%;">Tên sản phẩm</th>
+                        <th style="width: 15%;">Giá</th>
+                        <th style="width: 10%;">Số lượng</th>
+                        <th style="width: 20%;">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <% if (products.length > 0) { %>
+                        <% products.forEach(p => { %>
+                            <tr>
+                                <td class="fw-bold">
+                                    <%= p.id %>
+                                </td>
+                                <td class="text-start">
+                                    <%= p.name %>
+                                </td>
+                                <td class="text-success fw-bold">$
+                                    <%= p.price %>
+                                </td>
+                                <td>
+                                    <%= p.quantity %>
+                                </td>
+                                <td>
+                                    <a href="/edit/<%= p.id %>" class="btn btn-outline-warning btn-sm me-2">
+                                        <i class="bi bi-pencil"></i> Sửa
+                                    </a>
+                                    <a href="/delete/<%= p.id %>" class="btn btn-outline-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">
+                                        <i class="bi bi-trash"></i> Xóa
+                                    </a>
+                                </td>
+                            </tr>
+                            <% }) %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted py-4">
+                                            <%= search ? "Không tìm thấy sản phẩm nào khớp với từ khóa: " + search : "Chưa có sản phẩm nào trong hệ thống." %>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="text-end text-muted mt-2">Đang hiển thị: <strong><%= products.length %></strong> sản phẩm</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
