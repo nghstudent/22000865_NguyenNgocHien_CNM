@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sửa sản phẩm</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Sửa sản phẩm</h1>
+    </header>
+
+    <div class="container">
+        <form action="/edit/<%= product.id.S %>" method="post" enctype="multipart/form-data">
+            <p>
+                <label>Tên</label>
+                <input name="name" value="<%= product.name.S %>" required>
+            </p>
+            <p>
+                <label>Giá</label>
+                <input type="number" name="price" value="<%= product.price.N %>" required>
+            </p>
+            <p>
+                <label>Số lượng</label>
+                <input type="number" name="quantity" value="<%= product.quantity.N %>" required>
+            </p>
+            <p>
+                <img src="<%= product.url_image.S %>" width="100">
+            </p>
+            <p>
+                <label>Đổi ảnh</label>
+                <input type="file" name="image">
+            </p>
+            <button>Cập nhật</button>
+        </form>
+    </div>
+
+    <footer>
+        Nguyễn Ngọc Hiền – 22000865
+    </footer>
+
+</body>
+
+</html>
