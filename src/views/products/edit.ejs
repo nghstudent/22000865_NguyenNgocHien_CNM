@@ -1,0 +1,16 @@
+<h3>Edit Product</h3>
+
+<form method="post" class="card p-4 shadow-sm bg-white">
+  <div class="mb-3">
+    <label class="form-label">Product name</label>
+    <input type="text" name="name" value="<%= product.name %>" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Price</label>
+    <input type="number" name="price" value="<%= product.price %>" class="form-control" required>
+  </div>
+
+  <button class="btn btn-primary">Update</button>
+  <a href="/products" class="btn btn-secondary">Back</a>
+</form>
