@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD DynamoDB Lab</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
+        .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        form { display: grid; gap: 10px; max-width: 400px; margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; }
+        input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f2f2f2; }
+        img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
+        .btn-edit { color: blue; text-decoration: none; margin-right: 10px; }
+        .btn-del { color: red; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2><%= productToEdit ? 'Sửa Sản phẩm' : 'Thêm Sản phẩm mới' %></h2>
+        <form action="/save" method="POST">
+            <input type="text" name="id" placeholder="ID (Ví dụ: P01)" 
+                   value="<%= productToEdit ? productToEdit.id : '' %>" 
+                   <%= productToEdit ? 'readonly style="background:#eee"' : 'required' %>>
+            
+            <input type="text" name="name" placeholder="Tên sản phẩm" 
+                   value="<%= productToEdit ? productToEdit.name : '' %>" required>
+            
+            <input type="number" name="price" placeholder="Giá" 
+                   value="<%= productToEdit ? productToEdit.price : '' %>" required>
+            
+            <input type="text" name="url_image" placeholder="URL hình ảnh" 
+                   value="<%= productToEdit ? productToEdit.url_image : '' %>" required>
+            
+            <button type="submit" style="background: <%= productToEdit ? '#007bff' : 'green' %>; color: white; padding: 10px; border: none; cursor: pointer;">
+                <%= productToEdit ? 'Cập nhật' : 'Lưu sản phẩm' %>
+            </button>
+            <% if (productToEdit) { %> <a href="/" style="font-size: 12px; text-align: center;">Hủy bỏ</a> <% } %>
+        </form>
+
+        <h2>Danh sách sản phẩm</h2>
+        <table>
+            <tr>
+                <th>ID</th><th>Ảnh</th><th>Tên sản phẩm</th><th>Giá</th><th>Thao tác</th>
+            </tr>
+            <% products.forEach(p => { %>
+            <tr>
+                <td><%= p.id %></td>
+                <td><img src="<%= p.url_image %>" alt="img"></td>
+                <td><%= p.name %></td>
+                <td><%= p.price.toLocaleString() %> VNĐ</td>
+                <td>
+                    <a href="/?editId=<%= p.id %>" class="btn-edit">Sửa</a>
+                    <a href="/delete/<%= p.id %>" class="btn-del" onclick="return confirm('Xóa hả bro?')">Xóa</a>
+                </td>
+            </tr>
+            <% }) %>
+        </table>
+    </div>
+</body>
+</html>
